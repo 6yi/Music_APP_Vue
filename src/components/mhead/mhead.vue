@@ -2,11 +2,7 @@
   <div class="m-header">
     <h1 class="text">Music</h1>
     <router-link to="/user" class="mine" tag="div">
-<<<<<<< HEAD
      <img class="icon-list" src='../../common/icon/list.png'></img>
-=======
-     <!-- <img class="icon-list" src='../../common/icon/list.png'></img> -->
->>>>>>> sec
     </router-link>
     <router-link to="/search" class="search" tag="div">
       <img class="icon-search" src="../../common/icon/search.png"></img>
@@ -32,10 +28,6 @@ export default {
 		    color: #d44439-l;
 		}
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> sec
 .mine {
     position: absolute;
     top: 4px;
@@ -55,10 +47,7 @@ export default {
 }
 
 .text{
-<<<<<<< HEAD
-=======
 	font-family: "courier new";
->>>>>>> sec
     line-height: 44px;
     font-weight: bold;
     color: white;

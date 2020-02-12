@@ -15,12 +15,7 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style lang="scss" scoped>
-@import "~common/scss/variable";
-=======
 <style >
->>>>>>> sec
 
 .loading {
   width: 100%;

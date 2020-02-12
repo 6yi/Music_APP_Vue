@@ -36,19 +36,11 @@ export function createRecommendSong (music) {
 export function createRecommendListSong (music) {
   return new Song({
     id: music.id,
-<<<<<<< HEAD
-    singer: singerName(music.artists),
-    name: music.name,
-    // aliaName: music.song.alias.join('-'),
-    album: music.album.name,
-    image: music.album.picUrl
-=======
     singer: music.ar[0].name,
     name: music.name,
     // aliaName: music.song.alias.join('-'),
     album: music.al.name,
     image: music.al.picUrl
->>>>>>> sec
   })
 }
 

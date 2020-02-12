@@ -6,29 +6,17 @@
 			<a :href="item.url">
 				<img class="bannerimg" :src="item.picUrl">
 			</a>
-<<<<<<< HEAD
-		</swiper-slide>	
-		</swiper>
-=======
 		</swiper-slide>
       <div class="swiper-pagination" slot="pagination"> </div>
 	</swiper>
->>>>>>> sec
 	</div>
 	
  
 </template>
 
 <script>
-<<<<<<< HEAD
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-
-import 'swiper/css/swiper.min.css'
-
-=======
 import {swiper,swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/css/swiper.min.css'
->>>>>>> sec
   export default {
     name: 'App',
 	props:['recommends'],
@@ -39,31 +27,16 @@ import 'swiper/css/swiper.min.css'
 	  data () {
 	    return {
 	      swiperOption:{
-<<<<<<< HEAD
-=======
 			autoplay: {
-			  delay: 2500,
+			  delay: 2000,
 			  stopOnLastSlide: false,
 			  disableOnInteraction: true
 			},
->>>>>>> sec
 			autoHeight:true,
 	        slidesPerView: 'auto',
 	        centeredSlides:true,
 	        spaceBetween: 10,
 	        loop:true,
-<<<<<<< HEAD
-	        speed:600, //config参数同swiper4,与官网一致
-	      }
-	    }
-	  },
-	mounted(){
-		
-	},
-	methods:{
-		
-	}
-=======
 	        speed:600, 
 			pagination: {
 			          el: '.swiper-pagination',
@@ -77,7 +50,6 @@ import 'swiper/css/swiper.min.css'
 	 },
 	 methods:{},
 	 
->>>>>>> sec
   }
 </script>
 <style>
@@ -105,10 +77,7 @@ import 'swiper/css/swiper.min.css'
 		width: 100%;
 		float:left;
 		margin-bottom: 20px;
-<<<<<<< HEAD
-=======
 		border-radius:15px
->>>>>>> sec
 	}
 	
 </style>

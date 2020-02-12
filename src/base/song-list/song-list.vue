@@ -2,12 +2,6 @@
   <div class="song-list">
    <ul>
      <li v-for="(song, index) in songs" :key="song.id" class="item" @click="selectItem(song, index)">
-<<<<<<< HEAD
-       <!-- <div class="rank" v-show="rank">
-         <span :class="getRankCls(index)">{{getRankText(index)}}</span>
-       </div> -->
-=======
->>>>>>> sec
        <p class="count">{{index + 1}}</p>
        <div class="content">
          <h2 class="name">{{song.name}}</h2>
@@ -42,13 +36,7 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style lang="scss" scoped>
-@import "~common/scss/variable";
-@import "~common/scss/mixin";
-=======
 <style >
->>>>>>> sec
 .song-list {
   .item {
     position: relative;

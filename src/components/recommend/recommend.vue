@@ -1,18 +1,10 @@
 <template>
-<<<<<<< HEAD
-=======
 <div>
->>>>>>> sec
   <scroll class="recommend" ref="recommend" >
 	  <div class="recommend-content" ref="scroll" >
 		  <div class="decorate">
 			  <mylb v-bind:recommends="banner"></mylb>
-<<<<<<< HEAD
-		  </div>
-		  
-=======
 		  </div> 
->>>>>>> sec
 		   <div class="recommend-list" ref="recommendList">
 			     <h1 class="title">推荐歌单</h1>
 					<ul>
@@ -27,17 +19,6 @@
 						</li>
 					</ul>
 			</div>				   		  
-<<<<<<< HEAD
-	  </div>
-  </scroll>
-</template>
-<script>
-import Scroll from '../../base/scroll/scroll'
-import mylb from '../../base/mylb/lb.vue'
-import {getBanner, getRecommendList, getRecommendMusic} from '../../API/recommend.js'
-  export default {
-    name: 'App',
-=======
 	   </div>    
   </scroll>
   
@@ -54,7 +35,6 @@ import Scroll from '../../base/scroll/scroll.vue'
 import mylb from '../../base/mylb/lb.vue'
 import {getBanner, getRecommendList} from '../../API/recommend.js'
 export default {
->>>>>>> sec
 	components: {
 	  Scroll,mylb
 	},
@@ -70,8 +50,6 @@ export default {
 	  this._getRecommendList()
 	},
 	methods:{
-<<<<<<< HEAD
-=======
 		handlePlaylist (playlist) {
 		  const bottom = playlist.length > 0 ? '60px' : ''
 		  this.$refs.recommend.style.bottom = bottom
@@ -82,16 +60,11 @@ export default {
 		    path: `/recommend/${item.id}`,query:{isNative:1,listImg:item.picUrl,listName:item.name}
 		  })
 		},
->>>>>>> sec
 		_getBanner(){
 		  getBanner().then((res) => {
 		    if (res.status === 200) {
 			let list = res.data.banners
 			this.banner = list.splice(4)
-<<<<<<< HEAD
-		      console.log(this.banner)
-=======
->>>>>>> sec
 		    } else {
 		      console.error('Banner 获取失败')
 		    }
@@ -101,33 +74,21 @@ export default {
 	  getRecommendList().then((res) => {
 	    if (res.status === 200) {
 	      this.playList = res.data.result
-<<<<<<< HEAD
-		  console.log(this.playList)
-=======
->>>>>>> sec
 	    } else {
 	      console.error('getRecommendList 获取失败')
 	    }
 	  })
 	},
-<<<<<<< HEAD
-	
-=======
->>>>>>> sec
 	},
 	
   }
 </script>
 
 <style>
-<<<<<<< HEAD
-
-=======
 .list{
 	z-index: 99999;
 	height: 100%;
 }
->>>>>>> sec
 	.name{
 		font-size: 10px;
 		margin-bottom: 10px;
