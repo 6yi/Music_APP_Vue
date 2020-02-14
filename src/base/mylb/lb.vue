@@ -1,13 +1,13 @@
 <template>
 	
 	  <div id="sl" class="banner" >
-		<swiper :options="swiperOption" class="bannerspan">
+		<swiper :options="swiperOption" class="bannerspan" :key="swiperOption.speed">
 		<swiper-slide v-for="(item,index) in recommends" :key="index" >
-			<a :href="item.url">
+			<a :href="item.url" >
 				<img class="bannerimg" :src="item.picUrl">
 			</a>
 		</swiper-slide>
-      <div class="swiper-pagination" slot="pagination"> </div>
+     <div class="swiper-pagination" slot="pagination"></div>
 	</swiper>
 	</div>
 	
@@ -26,18 +26,19 @@ import 'swiper/css/swiper.min.css'
 	},
 	  data () {
 	    return {
+			re:"1",
 	      swiperOption:{
 			autoplay: {
-			  delay: 2000,
-			  stopOnLastSlide: false,
-			  disableOnInteraction: true
+				delay: 2000,
+				stopOnLastSlide: false,
+				disableOnInteraction: false
 			},
-			autoHeight:true,
 	        slidesPerView: 'auto',
 	        centeredSlides:true,
 	        spaceBetween: 10,
 	        loop:true,
 	        speed:600, 
+			 paginationClickable: true,
 			pagination: {
 			          el: '.swiper-pagination',
 			          type: 'bullets'
@@ -46,9 +47,18 @@ import 'swiper/css/swiper.min.css'
 	    }
 	  },
 	 mounted() {
-	 	
+		  var __this = this;
+	
+		setTimeout(function(){
+			 __this.swiperOption.speed=700
+		},1500)
+		  
+			
 	 },
 	 methods:{},
+	 watch:{
+		
+	 }
 	 
   }
 </script>

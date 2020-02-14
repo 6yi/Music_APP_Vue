@@ -1,44 +1,49 @@
-import * as types from './mutation-types'
-const mutations = {
-  [types.SET_MUSIC_LIST] (state, musicList) {
-    state.musicList = musicList
-  },
-  [types.SET_SINGER] (state, singer) {
-    state.singer = singer
-  },
-  [types.SET_PLAYING_STATE] (state, flag) {
-    state.playing = flag
-  },
-  [types.SET_FULL_SCREEN] (state, flag) {
-    state.fullScreen = flag
-  },
-  [types.SET_PLAYLIST] (state, list) {
-    state.playlist = list
-  },
-  [types.SET_SEQUENCE_LIST] (state, list) {
-    state.sequenceList = list
-  },
-  [types.SET_PLAY_MODE] (state, mode) {
-    state.mode = mode
-  },
-  [types.SET_CURRENT_INDEX] (state, index) {
-    state.currentIndex = index
-  },
-  [types.SET_DISC] (state, disc) {
-    state.disc = disc
-  },
-  [types.SET_TOP_LIST] (state, topList) {
-    state.topList = topList
-  },
-  [types.SET_SEARCH_HISTORY] (state, history) {
-    state.searchHistory = history
-  },
-  [types.SET_PLAY_HISTORY] (state, history) {
-    state.playHistory = history
-  },
-  [types.SET_FAVORITE_LIST] (state, list) {
-    state.favoriteList = list
-  }
-}
+import {getSong} from '../API/song.js'
 
-export default mutations
+
+
+export default{
+	musiclist(state,music){
+		state.musicList.id=music.id
+		state.musicList.picUrl=music.picUrl
+		state.musicList.name=music.listName
+	},
+	musicmsg(state,music){
+		state.full=true
+		getSong(music.id).then(res=>{
+			state.musicMsg.url=res.data.data[0].url
+		})
+		state.btmusic=true
+		state.musicMsg.isplay=true
+		state.musicMsg.name=music.name
+		state.musicMsg.image=music.image
+		state.musicMsg.id=music.id
+		state.musicMsg.singer=music.singer
+		state.musicMsg.al=music.al
+	},
+	musicplay(state){
+		state.btmusic=true
+		state.playing=true
+		state.full=false
+	},
+	backplay(state){
+			state.btmusic=true
+			state.full=true
+			state.musicMsg.isplay=false
+	},
+	nobackplay(state){
+			state.btmusic=false
+			state.full=true
+			state.musicMsg.isplay=false
+	},
+	inlist(state){
+		
+		state.full=true
+		state.indexFull=false
+	},
+	backrecommed(state){
+		state.full=false
+		state.indexFull=true
+	}
+	
+}

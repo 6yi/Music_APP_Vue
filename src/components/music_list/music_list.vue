@@ -1,16 +1,17 @@
 <template>
-	<transition name="slide">
-		<div id="list">
+	<transition name="slide" v-if="full">
+		<div>
+		<div id="list"  >
 			<div id="listimg">
 				<div class="back" @click="back">
 				  <img style="width: 40px;" src='../../common/icon/back.png'/>
 				</div>
 				<div id="gradients">
-					<p id="listName" v-html="this.listName" ></p>
+					<p id="listName" v-html="listName"></p>
 				</div>
 				<img  id="alimg" v-bind:src="listImg"/>
 			</div>
-			<div id="mydata" class="wrapper musiclist">
+			<div id="mydata" class="wrapper musiclist" :key="re">
 				<div class="nr">
 					<div class="all">
 						<span>
@@ -19,27 +20,29 @@
 							<span style="padding-left: 5%;padding-bottom: 3px;">播放全部 <span style="font-size: 12px;">(共{{listDetail.length}}首)</span></span>
 							</div>
 					<ul>
-						<li class="ite" v-for="item,index in listDetail" :key="item.id">
+						<li @click="play(item)" class="ite" v-for="item,index in listDetail" :key="item.id" >
 							<div class="musiciteam">
 								<span class="iteamindex">
 								{{index+1}}
 								</span>
-								<span class="musicname">
+								<span  class="musicname">
 								{{item.name}}
 								</span>	
 								<div class="singer">
 								{{item.singer}}
 								</div>				
 							</div>
-
-						
 						</li>
 					</ul>					
 				</div>
 			</div>
-			
-			
-			
+
+		</div>	
+		<keep-alive>
+				<router-view>
+					
+				</router-view>
+		</keep-alive>
 		</div>
   </transition>
 </template>
@@ -47,15 +50,18 @@
 <script>
 import {getRecommendListDetail} from '../../API/recommend.js'
 import {createRecommendListSong} from '../../common/js/song'
-// import Scroll from '../../base/scroll/scroll'
+import {mapState,mapMutations} from 'vuex'
+
 import BScroll from 'better-scroll' 
 
   export default {
-	  components:{
-		
-	  },
+	 computed:{
+		 ...mapState(['musicList','full','playing']),
+		 ...mapMutations(['musicplay'])
+	 },
 	data(){
 		return{
+			re:"",
 			id:"",
 			listImg:"",
 			listDetail: [],
@@ -68,9 +74,9 @@ import BScroll from 'better-scroll'
 		
 	},
 	created() {
-		this.id=this.$route.params.id
-		this.listImg=this.$route.query.listImg
-		this.listName=this.$route.query.listName		
+		this.id=this.musicList.id
+		this.listImg=this.musicList.picUrl
+		this.listName=this.musicList.name
 	},
 	updated() {
 		this.$nextTick(() => {
@@ -81,14 +87,25 @@ import BScroll from 'better-scroll'
 		})
 	},
 	mounted () {
-		this._getRecommendListDetail(this.id);
-		
-	
-		
+		console.log(this.musicList)
+		this._getRecommendListDetail(this.id)
 	},
 	methods:{
+		play(item){
+			this.$store.commit({
+				  type: 'musicmsg',
+				  ispaly:true,
+				  id: item.id,
+				  singer:item.singer,
+				  al:item.album,
+				  name:item.name,
+				  image:item.image
+				})
+				this.$store.commit("musicplay")
+		},
 		back () {
-		  this.$router.back()
+			this.$router.back()
+		  this.$store.commit("backrecommed")
 		},
 	_getRecommendListDetail (id) {
 	  if (!id) {
@@ -100,7 +117,6 @@ import BScroll from 'better-scroll'
 	      this.listDetail = res.data.playlist.tracks.map((item) => {
 	        return createRecommendListSong(item)
 	      })
-		  console.log(this.listDetail)
 	    } else {
 	      console.error('getRecommendListDetail 获取失败！')
 	    }
@@ -128,12 +144,18 @@ import BScroll from 'better-scroll'
 	
 	.iteamindex{
 		font-family: "microsoft sans serif";
+		text-align: center;
 		color: #C7C7C7;
+		position: absolute;
 		padding-top: 5%;
 		padding-left: 8%;
 		padding-right: 8%;
 	}
+	.musicname{
+		padding-left: 20%;
+	}
 	.musiciteam{
+		font-family: "microsoft yahei";
 		white-space:nowrap;
 		width: 100%;
 		padding-top: 5px;
@@ -141,11 +163,7 @@ import BScroll from 'better-scroll'
 		padding-bottom: 10px;
 		border-bottom: 1px solid #EEEEEE;
 	}
-	/* .ite{
-		width: 100%;
-		height: 30px;
-		
-	} */
+
 	.musiclist{
 		position: absolute;	
 		top: 43%;
@@ -189,15 +207,15 @@ import BScroll from 'better-scroll'
 		overflow: hidden;
 	}
 	
-	.slide-enter-active{
+	/* .slide-enter-active{
 		 transition: all 1s
-	}
+	} */
 	
-	.slide-leave-active {
+/* 	.slide-leave-active {
 	  transition: all 0.2s
-	}
+	} */
 	
-	.slide-enter,.slide-leave-to {
+	.slide-leave-to {
 	transition-delay: 0.5s;
 	  transform: translate3d(30%, 0, 0);
 	  opacity: 0;

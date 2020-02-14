@@ -34,22 +34,24 @@ export default {
 }
 </script>
 
-<style scoped lang="scss" >
-@import "~common/scss/variable";
+<style>
+
 
 .progress-circle {
   position: relative;
-  circle {
+  
+}
+circle {
     stroke-width: 8px;
     transform-origin: center;
-    &.progress-background {
-      transform: scale(0.9);
-      stroke: $color-theme-d;
-    }
-    &.progress-bar {
-      transform: scale(0.9) rotate(-90deg);
-      stroke: $color-highlight-background;
-    }
+    
   }
-}
+.progress-bar {
+      transform: scale(0.9) rotate(-90deg);
+      stroke: rgb(253, 108, 98);
+    }
+.progress-background {
+      transform: scale(0.9);
+      stroke: rgba(19, 19, 19, 0.6);
+    }
 </style>

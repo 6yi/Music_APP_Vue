@@ -1,6 +1,7 @@
 <template>
 <div>
-  <scroll class="recommend" ref="recommend" >
+	
+  <scroll class="recommend" ref="recommend" v-if="indexFull">
 	  <div class="recommend-content" ref="scroll" >
 		  <div class="decorate">
 			  <mylb v-bind:recommends="banner"></mylb>
@@ -33,8 +34,17 @@
 <script>
 import Scroll from '../../base/scroll/scroll.vue'
 import mylb from '../../base/mylb/lb.vue'
+import {mapState,mapMutations} from 'vuex'
 import {getBanner, getRecommendList} from '../../API/recommend.js'
+
+
 export default {
+	computed:{
+		
+			...mapState(['indexFull'])
+		
+	}
+	,
 	components: {
 	  Scroll,mylb
 	},
@@ -56,9 +66,16 @@ export default {
 		  this.$refs.scroll.refresh()
 		},
 		selectList (item) {
-		  this.$router.push({
-		    path: `/recommend/${item.id}`,query:{isNative:1,listImg:item.picUrl,listName:item.name}
-		  })
+			this.$store.commit({
+				  type: 'musiclist',
+				  id: item.id,
+				  picUrl:item.picUrl,
+				  listName:item.name
+				})
+			this.$store.commit("inlist")
+			  this.$router.push({
+				path: `/recommend/${item.id}`,query:{isNative:1}
+			  })
 		},
 		_getBanner(){
 		  getBanner().then((res) => {
@@ -85,10 +102,10 @@ export default {
 </script>
 
 <style>
-.list{
-	z-index: 99999;
+/* .list{
+	z-index: -199;
 	height: 100%;
-}
+} */
 	.name{
 		font-size: 10px;
 		margin-bottom: 10px;
@@ -153,6 +170,8 @@ img {
 	position: fixed;
 	width: 100%;
 	top: 88px;
+
+	margin-bottom:9% ;
 	bottom: 0;
 	z-index: -99;
 }

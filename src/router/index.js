@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import MusicList from '../components/music_list/music_list.vue'
 import APP from '../App.vue'
 import recommend from '../components/recommend/recommend.vue'
+import player from '../components/player/player.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -18,10 +19,20 @@ export default new Router({
       children: [
         {
           path: ':id',
-          component: MusicList
+          component: MusicList,
+		  children:[
+			  {
+				  path:'/listplayer',
+				  component: player
+			  }
+		  ]
         }
       ]
     },
+		{
+			path:'/player',
+			component: player
+		}
   ]
 })
 

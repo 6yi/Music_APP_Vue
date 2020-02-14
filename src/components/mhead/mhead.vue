@@ -1,15 +1,14 @@
 <template>
   <div class="m-header">
     <h1 class="text">Music</h1>
-    <router-link to="/user" class="mine" tag="div">
+  <!--  <router-link to="/user" class="mine" tag="div">
      <img class="icon-list" src='../../common/icon/list.png'></img>
-    </router-link>
+    </router-link> -->
     <router-link to="/search" class="search" tag="div">
       <img class="icon-search" src="../../common/icon/search.png"></img>
     </router-link>
   </div>
 </template>
-
 <script>
 export default {
 	name:"mhead"
