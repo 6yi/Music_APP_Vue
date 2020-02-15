@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="bmusic">
+    <div class="bmusic" @click="play">
+		<div class="in-music"> 
 		<div class="bt-img">
 			<img :key="this.musicMsg.image.id" v-lazy="this.musicMsg.image" style="width: 35px;">
 		</div>
@@ -10,6 +11,8 @@
 		<div class="bt-singer">
 			{{musicMsg.singer}}
 		</div>
+		</div>
+		
 		<div class="bt-icon">
 			<img v-bind:src="Icon" style="width:30px;">
 		</div>
@@ -19,8 +22,9 @@
 
 <script>
 import {mapState,mapMutations} from 'vuex'
-import playIcon from '../../common/fonts/play.png'
-import pauseIcon from '../../common/fonts/pause.png'
+import playIcon from '../../common/fonts/pause.png'
+import pauseIcon from '../../common/fonts/play.png'
+
 
   export default {
 	name:"btmusic",
@@ -33,25 +37,37 @@ import pauseIcon from '../../common/fonts/pause.png'
 			Icon:pauseIcon
 		}
 	},
+	methods:{
+		play(){
+			this.$store.commit("btmusicplay")
+		}
+	}
   }
 </script>
 <style>
 	.bt-singer{
+		overflow: hidden;
+		white-space:nowrap;
+		width: 60%;
 		font-size: 5px;
 		position: fixed;
-		left: 20%;
+		left: 18%;
 		bottom: 1%;
 	}
 	.bt-name{
+		overflow: hidden;
+		white-space:nowrap;
+		font-size: 14px;
+		width: 60%;
 		font-weight: bold;
 		position: fixed;
-		left: 20%;
+		left: 18%;
 		bottom: 3%;
 	}
 	.bt-img{
 		position: fixed;
-		left: 25px;
-		bottom: 2px;
+		left: 20px;
+		bottom: 0px;
 	}
 	.bmusic{
 		position: fixed;

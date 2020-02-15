@@ -4,15 +4,16 @@
 		  <mhead></mhead>
 		  <mtable></mtable>
 	  </div>
-	
 	    <transition name="fade" mode="out-in">
 			<play v-show="musicMsg.isplay"></play>
 		</transition>
 	   <keep-alive> 
+	  
 			<router-view></router-view>
+			
 		</keep-alive>
 		<div>
-				  <bmusic  v-show="playing"></bmusic>
+				<bmusic  v-show="playing"></bmusic>
 		</div>
   </div>
 </template>

@@ -21,6 +21,13 @@ export default{
 		state.musicMsg.singer=music.singer
 		state.musicMsg.al=music.al
 	},
+	btmusicplay(state){
+		state.musicMsg.isplay=true
+		// state.indexFull=false
+		// state.btmusic=false
+		
+		// state.full=false
+	},
 	musicplay(state){
 		state.btmusic=true
 		state.playing=true
@@ -37,7 +44,6 @@ export default{
 			state.musicMsg.isplay=false
 	},
 	inlist(state){
-		
 		state.full=true
 		state.indexFull=false
 	},

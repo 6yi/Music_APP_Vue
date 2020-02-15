@@ -15,9 +15,12 @@
 			  </div>
 			  <keep-alive>
 				  <div class="playmusic">
-				  	  <audio class="playaudio"  autoplay  v-bind:src="musicMsg.url" ref="au">	  
+				  	  <audio id="musicMp3" class="playaudio"  autoplay  v-bind:src="musicMsg.url" ref="au">	  
 				  	  </audio>
-				  <div  @click="playstart">
+					  <div class="play-time">
+						  <div class="playt-alltime"></div>
+					  </div>
+				  <div  @click="playstart" class="play-con">
 				  	<img class="play-last" src="../../common/icon/lastMusic.png" style="width: 13%;">
 				  	<img class="play-icon" ref="playIcon" v-bind:src="Icon" style="width: 13%">
 				  	<img class="next-last" src="../../common/icon/nextMusic.png" style="width: 13%;">
@@ -46,10 +49,25 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				display:true,
 				musicSrc:"",
 				isPlay:true,
-				Icon:playIcon
+				Icon:playIcon,
+				progress: '0%',
 		}
 	},
 	methods:{
+		  changeProgress(){
+		      const musicMp3 =this.$refs.au
+			  setTimeout(function (){
+				  const numbers = musicMp3.currentTime / musicMp3.duration
+				  let perNumber = (numbers * 100).toFixed(2)
+				  if (perNumber >= 100) {
+				    this.progress = 0
+				  }
+				  perNumber += '%'
+				  this.progress = perNumber
+				  console.log(this.progress)
+			  },50)
+		
+		    },
 		back () {
 			if(this.isPlay==false){
 				this.$store.commit("nobackplay")
@@ -100,11 +118,29 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		
 	},
 	watch:{
-		
+		playing(n,o){
+				if(n==true){
+					this.changeProgress()
+				}
 		}
+	}
   }
 </script>
 <style>
+	.playt-alltime{
+		height: 4px;
+		width: 10%;
+		background-color: #000000;
+	}
+	.play-time{
+		margin: auto;
+		width: 80%;
+		height: 4px;
+		background-color: #757575;
+	}
+	.play-con{
+		margin-top: 10%;
+	}
 	.play-icon{
 		margin-left: 8%;
 		margin-right: 10%;

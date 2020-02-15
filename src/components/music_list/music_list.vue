@@ -87,10 +87,17 @@ import BScroll from 'better-scroll'
 		})
 	},
 	mounted () {
-		console.log(this.musicList)
 		this._getRecommendListDetail(this.id)
+		 if (window.history && window.history.pushState) {
+		    history.pushState(null, null, document.URL);
+		    window.addEventListener('popstate', this.back, false);
+		  }
+	},
+	destroyed(){
+	  window.removeEventListener('popstate', this.back, false);
 	},
 	methods:{
+		
 		play(item){
 			this.$store.commit({
 				  type: 'musicmsg',
@@ -105,7 +112,7 @@ import BScroll from 'better-scroll'
 		},
 		back () {
 			this.$router.back()
-		  this.$store.commit("backrecommed")
+			this.$store.commit("backrecommed")
 		},
 	_getRecommendListDetail (id) {
 	  if (!id) {
