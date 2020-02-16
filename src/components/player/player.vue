@@ -21,8 +21,7 @@
 					  <div class="play-time" ref="change">
 						  <div ref="time" :style="{'width':currentTime}" class="play-alltime">
 						  </div>
-						    <div ref="movetime" class="play-i" :style="{'left':currentTime}" 
-							@mousedown="move"
+						    <div ref="movetime" class="play-i" :style="{'left':currentTime,'width':zfx,'height':zfx}" 
 							 @touchstart="down()" 
 							  @touchmove="move()"
 							   @touchend="up()" ></div>
@@ -63,7 +62,10 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				changetime:false,
 				nowX:"",
 				dx:"",
-				nx:"",
+				clinet:"",
+				zfx:"12px",
+				position: { x: 0, y: 0 },
+				 nx: '', ny: '', dx: '', dy: '', xPum: '', yPum: '',
 				
 		}
 	},
@@ -73,7 +75,6 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		},
 		updateTime(e){
 			if(!this.changetime){
-				console.log("更新")
 				 this.currentTime = (e.target.currentTime/this.duration)*100+"%";		
 			}
 			
@@ -115,8 +116,7 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				console.log(this.musicSrc)
 			})
 		},
-		ended(){
-			
+		ended(){			
 			const audio=this.$refs.au
 			this.display=false
 			this.Icon=pauseIcon
@@ -143,7 +143,6 @@ import pauseIcon from '../../common/icon/isPlay.png'
 					//移动当前元素
 					// odiv.style.left = left + 'px';
 				};
-				
 				document.onmouseup = (e) => {
 					 document.onmousemove = null;
 					 document.onmouseup = null;
@@ -160,21 +159,22 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		    }else {
 		        touch = event;
 		    }
-		    this.nowX= touch.clientX;
+			this.zfx="15px"
+		     this.position.x = touch.clientX;
 			this.dx = this.$refs.movetime.offsetLeft;
 		  },
 		  move(){ 
 			   if(this.flags){
-				
 				   this.changetime=true
 			        let touch ;
-			        if(event.touches){
+					this.zfx="15px"
+					if(event.touches){
 			            touch = event.touches[0];
 			        }else {
 			            touch = event;
 			        }
-			        this.nx = touch.clientX-this.nowX;
-	
+			         this.nx = touch.clientX - this.position.x;
+					 this.xPum = this.dx+this.nx;
 					if(touch.clientX>=this.$refs.change.clientWidth){
 						this.currentTime=100+"%"
 						 this.$refs.au.currentTime=(this.$refs.change.clientWidth)*this.duration
@@ -182,17 +182,17 @@ import pauseIcon from '../../common/icon/isPlay.png'
 						this.currentTime=0+"%";
 						 this.$refs.au.currentTime=0
 					}else{
-						 this.currentTime=this.dx+this.nx+"px";
-						 this.$refs.au.currentTime=(touch.clientX/this.$refs.change.clientWidth)*this.duration
+						 this.currentTime=this.xPum+"px";
 					}
-					console.log(this.nowX+":  "+touch.clientX)
+					this.clinet= this.xPum
 			      }
 				  
 			  },
 			  up(){
+				  this.zfx="10px"
 				   this.changetime=false
+				    this.$refs.au.currentTime=(this.clinet/this.$refs.change.clientWidth)*this.duration
 			  }
-			
 	},
 	created() {
 		
@@ -222,11 +222,11 @@ import pauseIcon from '../../common/icon/isPlay.png'
 	
 	.play-i{
 		position: relative;
-		top: -3px;
-		left: 0%;
-		height: 10px;
-		width: 10px;
+		top: -4.4px;
+		left: -2%;
 		margin-right: 0px;
+		margin-top: auto;
+		margin-bottom: auto;
 		border-radius: 50%;
 		background-color:white;
 	}
@@ -275,6 +275,8 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		/* z-index: 200; */
 	}
 	.demo{
+		width: 100%;
+		height: 33.9%;
 		text-align: center;	
 	    margin-top: 30px;
 	}
@@ -284,6 +286,7 @@ import pauseIcon from '../../common/icon/isPlay.png'
 	}
 	
 	.an{
+		display: none;
 	   -webkit-transform: rotate(360deg);
 	    animation: rotation 20s linear infinite;
 	    -moz-animation: rotation 20s linear infinite;

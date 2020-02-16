@@ -1,5 +1,4 @@
 <template>
-	
 	<transition name="slide" v-if="full" mode="out-in">
 		<div>
 		<div id="list"  >
@@ -37,7 +36,6 @@
 					</ul>					
 				</div>
 			</div>
-
 		</div>	
 		</div>
   </transition>
@@ -94,7 +92,6 @@ import BScroll from 'better-scroll'
 	  window.removeEventListener('popstate', this.back, false);
 	},
 	methods:{
-		
 		play(item){
 			this.$store.commit({
 				  type: 'musicmsg',
