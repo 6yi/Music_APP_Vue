@@ -22,18 +22,23 @@ export default{
 		state.musicMsg.al=music.al
 	},
 	btmusicplay(state){
+		state.playing=false
 		state.musicMsg.isplay=true
-		// state.indexFull=false
-		// state.btmusic=false
-		
-		// state.full=false
 	},
 	musicplay(state){
+		state.musicMsg.isplay=false
 		state.btmusic=true
 		state.playing=true
-		state.full=false
+		
+		state.playing=true
+		state.btplay=true
+		state.btmusic=true
+		state.full=true
+		state.musicMsg.isplay=false
 	},
 	backplay(state){
+			state.playing=true
+			state.btplay=true
 			state.btmusic=true
 			state.full=true
 			state.musicMsg.isplay=false
@@ -41,6 +46,7 @@ export default{
 	nobackplay(state){
 			state.btmusic=false
 			state.full=true
+			state.btplay=false
 			state.musicMsg.isplay=false
 	},
 	inlist(state){
@@ -50,6 +56,12 @@ export default{
 	backrecommed(state){
 		state.full=false
 		state.indexFull=true
+	},
+	btchange(state){
+		if(state.btplay==true){
+			state.btplay=false
+		}else{
+			state.btplay=true
+		}
 	}
-	
 }

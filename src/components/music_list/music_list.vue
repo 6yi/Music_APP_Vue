@@ -1,5 +1,6 @@
 <template>
-	<transition name="slide" v-if="full">
+	
+	<transition name="slide" v-if="full" mode="out-in">
 		<div>
 		<div id="list"  >
 			<div id="listimg">
@@ -38,13 +39,9 @@
 			</div>
 
 		</div>	
-		<keep-alive>
-				<router-view>
-					
-				</router-view>
-		</keep-alive>
 		</div>
   </transition>
+  
 </template>
 
 <script>
@@ -108,6 +105,7 @@ import BScroll from 'better-scroll'
 				  name:item.name,
 				  image:item.image
 				})
+				console.log(item.id)
 				this.$store.commit("musicplay")
 		},
 		back () {
@@ -134,6 +132,14 @@ import BScroll from 'better-scroll'
   }
 </script>
 <style>
+	.anmimate-box{
+	    position: absolute;
+	    top: 0px;
+	    bottom: 0px;
+	    width: 100%;
+	    overflow: hidden;
+	}
+
 	.singer{
 		color: #C7C7C7;
 		padding-top: 2%;
@@ -216,17 +222,17 @@ import BScroll from 'better-scroll'
 	
 	/* .slide-enter-active{
 		 transition: all 1s
-	} */
+	} 
 	
-/* 	.slide-leave-active {
+ 	.slide-leave-active {
 	  transition: all 0.2s
 	} */
 	
-	.slide-leave-to {
+/* 	.slide-leave-to{
 	transition-delay: 0.5s;
 	  transform: translate3d(30%, 0, 0);
 	  opacity: 0;
-	}
+	} */
 	
 	#list{
 		position:fixed;

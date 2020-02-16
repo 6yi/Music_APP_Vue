@@ -1,47 +1,62 @@
 <template>
-  <div>
-    <div class="bmusic" @click="play">
+
+    <div class="bmusic">
 		<div class="in-music"> 
-		<div class="bt-img">
+		<div class="bt-img"  @click="play">
 			<img :key="this.musicMsg.image.id" v-lazy="this.musicMsg.image" style="width: 35px;">
 		</div>
-		<div class="bt-name">
+		<div class="bt-name"  @click="play">
 			{{musicMsg.name}}
 		</div>
-		<div class="bt-singer">
+		<div class="bt-singer"  @click="play">
 			{{musicMsg.singer}}
 		</div>
 		</div>
-		
 		<div class="bt-icon">
-			<img v-bind:src="Icon" style="width:30px;">
+			<img @click="palyIcon" :src="ICon" style="width:30px;">
 		</div>
 	</div>
   </div>
+
 </template>
 
 <script>
 import {mapState,mapMutations} from 'vuex'
 import playIcon from '../../common/fonts/pause.png'
 import pauseIcon from '../../common/fonts/play.png'
-
-
   export default {
 	name:"btmusic",
     computed:{
-    	...mapState(['musicMsg','playing','full']),	
-			Icon:pauseIcon
+    	...mapState(['musicMsg','playing','full','btplay']),	
+			
     },
 	data(){
 		return{
-			Icon:pauseIcon
+			ICon:pauseIcon
 		}
 	},
 	methods:{
 		play(){
 			this.$store.commit("btmusicplay")
+		},
+		palyIcon(){
+			if(this.ICon==playIcon){
+				this.ICon=pauseIcon
+			}else{
+				this.ICon=playIcon	
+			}
+			this.$store.commit("btchange")
 		}
-	}
+	},
+	watch:{
+		btplay(){
+			if(this.btplay==true){
+				this.ICon=pauseIcon
+			}else{
+				this.ICon=playIcon	
+			}
+			}
+		}
   }
 </script>
 <style>
@@ -70,6 +85,7 @@ import pauseIcon from '../../common/fonts/play.png'
 		bottom: 0px;
 	}
 	.bmusic{
+		overflow: hidden;
 		position: fixed;
 		bottom: 0;
 		padding-top: 9%;
@@ -79,8 +95,11 @@ import pauseIcon from '../../common/fonts/play.png'
 		box-shadow:0 0 1px #000 inset;
 	}
 	.bt-icon{
+		
 		position: fixed;
 		right: 24px;
 		bottom: 2px;
 	}
+
+	
 </style>

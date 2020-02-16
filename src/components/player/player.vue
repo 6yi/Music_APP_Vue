@@ -1,10 +1,9 @@
 <template>
-	<transition name="slide" v-if="playing">
+	<transition name="slide"  mode="out-in">
 	  <div class="player"  >
-		  <img v-bind:src="this.musicMsg.image" style="width: 170%;height: 160%;z-index:6;position:fixed;top:-10%;left:-10%;filter:blur(14px);">
+		  <img v-lazy="this.musicMsg.image" style="width: 170%;height: 160%;z-index:6;position:fixed;top:-10%;left:-10%;filter:blur(14px);">
 		  <div class="op"></div>
 		  <div class="musicMain">
-			  
 			 <div class="play-head">
 				 <img @click="back" src='../../common/icon/down.png' style="width: 30px;position: relative;left:-43%;top: 5%;opacity: 0.7;">
 				 </div>
@@ -13,16 +12,24 @@
 			  <div class="demo">
 			      <img :class="{'an':display}" id="xzimg" v-lazy="this.musicMsg.image"/>
 			  </div>
+			  <div>
+			  </div>
 			  <keep-alive>
 				  <div class="playmusic">
-				  	  <audio id="musicMp3" class="playaudio"  autoplay  v-bind:src="musicMsg.url" ref="au">	  
+				  	  <audio id="musicMp3"  @timeupdate="updateTime" @canplay="getDuration" @ended="end" class="playaudio"  autoplay  v-bind:src="musicMsg.url" ref="au">	  
 				  	  </audio>
-					  <div class="play-time">
-						  <div class="playt-alltime"></div>
+					  <div class="play-time" ref="change">
+						  <div ref="time" :style="{'width':currentTime}" class="play-alltime">
+						  </div>
+						    <div ref="movetime" class="play-i" :style="{'left':currentTime}" 
+							@mousedown="move"
+							 @touchstart="down()" 
+							  @touchmove="move()"
+							   @touchend="up()" ></div>
 					  </div>
-				  <div  @click="playstart" class="play-con">
+				  <div   class="play-con">
 				  	<img class="play-last" src="../../common/icon/lastMusic.png" style="width: 13%;">
-				  	<img class="play-icon" ref="playIcon" v-bind:src="Icon" style="width: 13%">
+				  	<img @click="playstart" class="play-icon" ref="playIcon" v-bind:src="Icon" style="width: 13%">
 				  	<img class="next-last" src="../../common/icon/nextMusic.png" style="width: 13%;">
 				  	</div>
 				  </div>
@@ -42,7 +49,7 @@ import pauseIcon from '../../common/icon/isPlay.png'
   export default {
     name: 'player',
 	computed:{
-		...mapState(['musicMsg','playing','full']),		
+		...mapState(['musicMsg','playing','full','btplay']),		
 	},
 	data(){
 		return{
@@ -51,24 +58,27 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				isPlay:true,
 				Icon:playIcon,
 				progress: '0%',
+				currentTime:"80%",
+				duration:0,
+				changetime:false,
+				nowX:"",
+				dx:"",
+				nx:"",
+				
 		}
 	},
 	methods:{
-		  changeProgress(){
-		      const musicMp3 =this.$refs.au
-			  setTimeout(function (){
-				  const numbers = musicMp3.currentTime / musicMp3.duration
-				  let perNumber = (numbers * 100).toFixed(2)
-				  if (perNumber >= 100) {
-				    this.progress = 0
-				  }
-				  perNumber += '%'
-				  this.progress = perNumber
-				  console.log(this.progress)
-			  },50)
-		
-		    },
-		back () {
+		getDuration(){
+			this.duration=this.$refs.au.duration;
+		},
+		updateTime(e){
+			if(!this.changetime){
+				console.log("更新")
+				 this.currentTime = (e.target.currentTime/this.duration)*100+"%";		
+			}
+			
+		},
+		back() {
 			if(this.isPlay==false){
 				this.$store.commit("nobackplay")
 				this.display=true
@@ -76,16 +86,14 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				this.isPlay=true
 			}else{
 				this.$store.commit("backplay")
-			}
-				
+			}		
 		},
 		stop(){
 			if(this.display==false){
 				this.display=true
 			}else{
 				this.display=false
-			}
-			
+			}		
 		},
 		playstart(){
 			const audio=this.$refs.au
@@ -100,16 +108,91 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				this.Icon=playIcon
 				this.isPlay=true
 			}
-			
-			
 		},
 		_getSong(id){
 			getSong(id).then(res=>{
 				this.musicSrc=res.data.data[0].url
 				console.log(this.musicSrc)
 			})
-		}
+		},
+		ended(){
+			
+			const audio=this.$refs.au
+			this.display=false
+			this.Icon=pauseIcon
+			this.isPlay=false
+		},
+		end(){
+			this.currentTime="0%"
+			this.display=false
+			this.Icon=pauseIcon
+			this.isPlay=false
+		},
+		move(e){
+				this.changetime=true
+				let odiv = e.target;        //获取目标元素
+				//算出鼠标相对元素的位置
+				let disX = e.offsetX;
+				// console.log(disX)
+				document.onmousemove = (e)=>{       //鼠标按下并移动的事件
+					//用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+					this.changetime=true
+					let left = e.offsetX - disX;    
+					//绑定元素位置到positionX和positionY上面		       
+					this.currentTime = left+"px";
+					//移动当前元素
+					// odiv.style.left = left + 'px';
+				};
+				
+				document.onmouseup = (e) => {
+					 document.onmousemove = null;
+					 document.onmouseup = null;
+					this.changetime=false
+				};
+		},
 		
+		 down(){
+			this.changetime=true
+		    this.flags = true;
+		    let touch;
+		    if(event.touches){
+		        touch = event.touches[0];
+		    }else {
+		        touch = event;
+		    }
+		    this.nowX= touch.clientX;
+			this.dx = this.$refs.movetime.offsetLeft;
+		  },
+		  move(){ 
+			   if(this.flags){
+				
+				   this.changetime=true
+			        let touch ;
+			        if(event.touches){
+			            touch = event.touches[0];
+			        }else {
+			            touch = event;
+			        }
+			        this.nx = touch.clientX-this.nowX;
+	
+					if(touch.clientX>=this.$refs.change.clientWidth){
+						this.currentTime=100+"%"
+						 this.$refs.au.currentTime=(this.$refs.change.clientWidth)*this.duration
+					}else if(touch.clientX<=0){
+						this.currentTime=0+"%";
+						 this.$refs.au.currentTime=0
+					}else{
+						 this.currentTime=this.dx+this.nx+"px";
+						 this.$refs.au.currentTime=(touch.clientX/this.$refs.change.clientWidth)*this.duration
+					}
+					console.log(this.nowX+":  "+touch.clientX)
+			      }
+				  
+			  },
+			  up(){
+				   this.changetime=false
+			  }
+			
 	},
 	created() {
 		
@@ -118,19 +201,42 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		
 	},
 	watch:{
-		playing(n,o){
-				if(n==true){
-					this.changeProgress()
-				}
+		btplay(){
+			const audio=this.$refs.au
+			if(this.btplay==true){
+				audio.play()
+				this.display=true
+				this.Icon=playIcon
+				this.isPlay=true
+			}else{
+				audio.pause()
+				this.display=false
+				this.Icon=pauseIcon
+				this.isPlay=false
+			}
 		}
 	}
   }
 </script>
 <style>
-	.playt-alltime{
+	
+	.play-i{
+		position: relative;
+		top: -3px;
+		left: 0%;
+		height: 10px;
+		width: 10px;
+		margin-right: 0px;
+		border-radius: 50%;
+		background-color:white;
+	}
+	.play-alltime{
+		float: left;
 		height: 4px;
-		width: 10%;
-		background-color: #000000;
+		width: 0%;
+		padding-left: 0px;
+		margin-left: 0px;
+		background-color: #F2F3F4
 	}
 	.play-time{
 		margin: auto;
@@ -139,7 +245,7 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		background-color: #757575;
 	}
 	.play-con{
-		margin-top: 10%;
+		margin-top: 7%;
 	}
 	.play-icon{
 		margin-left: 8%;
@@ -158,15 +264,15 @@ import pauseIcon from '../../common/icon/isPlay.png'
 			visibility: hidden;
 	}
 	.playmusic{
-		margin-top:23%;
+		margin-top:15%;
 		width: 100%;
 		height: 40px;
-		/* background-color: #D44439; */
 	}
 	.play-head{
-		padding-top:10px;
+		
+		padding-top:11px;
 		width: 100%;
-		z-index: 200;
+		/* z-index: 200; */
 	}
 	.demo{
 		text-align: center;	
@@ -197,6 +303,7 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		text-align: center;
 		margin: 3% auto;
 		width: 100%;
+		 white-space:nowrap;
 		margin-bottom: 0%;
 		font-size: 33px;
 		color: aliceblue;
@@ -238,11 +345,17 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		 transition: all 1s
 	}
 	
+	.slide-leave-to {
+	transition-delay: 0.5s;
+	  transform: translate3d(30%, 0, 0);
+	  opacity: 0;
+	}
+	
 	.slide-leave-active {
 	  transition: all 0.2s
 	}
 	
-	.slide-enter,.slide-leave-to {
+	.slide-enter {
 		transition-delay: 0.5s;
 		  transform: translate3d(30%, 0, 0);
 		  opacity: 0;

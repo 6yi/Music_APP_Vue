@@ -1,20 +1,24 @@
 <template>
-  <div>
-	  <div v-show="indexFull">
+  <div id="musicApp">
+	  <div  v-show="indexFull">
 		  <mhead></mhead>
 		  <mtable></mtable>
 	  </div>
-	    <transition name="fade" mode="out-in">
+	  
+	  <transition class="fade" mode="out-in">
 			<play v-show="musicMsg.isplay"></play>
-		</transition>
+	  </transition>
+		
 	   <keep-alive> 
 	  
-			<router-view></router-view>
+			<router-view v-show="!musicMsg.isplay"></router-view>
 			
-		</keep-alive>
+	    </keep-alive>
+	
 		<div>
-				<bmusic  v-show="playing"></bmusic>
+			<bmusic v-show="playing"></bmusic>		
 		</div>
+		
   </div>
 </template>
 
@@ -35,10 +39,20 @@ export default {
 }
 </script>
 <style>
+		
 *{
 	margin: 0;
 	padding: 0;
 }
+bmusic{
+	z-index: 1;
+}
+play {
+	position: fixed;
+	top: 0;
+	
+	z-index: 2;
+	}
 #app {
   position: fixed;
 	font-family: "microsoft yahei";
@@ -46,12 +60,24 @@ export default {
   height: 100%;
   width: 100%;
 }
+
 .fade-enter-active {       
   animation: bounce-in .5s;
 }
+
+
 .fade-leave-active {        
   animation: bounce-in .5s reverse;    
 }
+
+#musicApp::-webkit-scrollbar {display:none}
+  ::-webkit-scrollbar {
+     width: 0 !important;
+   }
+   ::-webkit-scrollbar {
+     width: 0 !important;height: 0;
+   }
+   
 @keyframes bounce-in {
   0% {
     transform: scale(0);

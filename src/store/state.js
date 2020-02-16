@@ -17,6 +17,7 @@ const state = {
   full:true,
   playing: false,
   indexFull:true,
+  btplay:false
   // singer: {},
   // // 播放
   // playing: false,
