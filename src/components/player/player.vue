@@ -10,7 +10,8 @@
 			 <div class="play-musicName">{{musicMsg.name}}</div>
 			  <div class="play-singer">{{musicMsg.singer}}</div>
 			  <div class="demo">
-			      <img :class="{'an':display}" id="xzimg" v-lazy="this.musicMsg.image"/>
+				  <div @click="changelyrc()" class="lryc" v-show="lyrc" ><p id="ly"></p></div>
+			      <img @click="changelyrc()" :class="{'an':display}" v-show="!lyrc"  id="xzimg" v-lazy="this.musicMsg.image"/>
 			  </div>
 			  <div>
 			  </div>
@@ -42,13 +43,15 @@
 
 <script>
 import {mapState,mapMutations} from 'vuex'
-import {getSong} from '../../API/song.js'
+import {getSong,getLyric} from '../../API/song.js'
 import playIcon from '../../common/icon/isPause.png'
 import pauseIcon from '../../common/icon/isPlay.png'
+import Lyric from 'lrc-file-parser'
   export default {
     name: 'player',
 	computed:{
-		...mapState(['musicMsg','playing','full','btplay']),		
+		...mapState(['musicMsg','playing','full','btplay']),
+			
 	},
 	data(){
 		return{
@@ -62,8 +65,12 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				changetime:false,
 				nowX:"",
 				dx:"",
+				Lyrics:'',
 				clinet:"",
 				zfx:"12px",
+				Lyric:"",
+				
+				lyrc:false,
 				position: { x: 0, y: 0 },
 				 nx: '', ny: '', dx: '', dy: '', xPum: '', yPum: '',
 				
@@ -72,22 +79,46 @@ import pauseIcon from '../../common/icon/isPlay.png'
 	methods:{
 		getDuration(){
 			this.duration=this.$refs.au.duration;
+			var dom=document.getElementById("ly")
+			getLyric(this.musicMsg.id).then((res)=>{
+				this.Lyric = new Lyric({
+				  onPlay: function (line, text) {
+					dom.innerHTML=text
+				  },
+				  onSetLyric: function (lines) { 
+				   
+				  },
+				  offset: 150,
+				
+				})
+				
+				this.Lyric.setLyric(res.data.lrc.lyric)
+				this.Lyric.play(this.$refs.au.currentTime*1000)
+				
+			}
+			)
 		},
 		updateTime(e){
 			if(!this.changetime){
+				
 				 this.currentTime = (e.target.currentTime/this.duration)*100+"%";		
 			}
 			
 		},
+		destroyed(){
+		  window.removeEventListener('popstate', this.back, false);
+		},
 		back() {
-			if(this.isPlay==false){
+			if(this.isPlay==false){		
 				this.$store.commit("nobackplay")
 				this.display=true
 				this.Icon=playIcon
 				this.isPlay=true
 			}else{
-				this.$store.commit("backplay")
-			}		
+				this.$store.commit("backplay")	
+			}
+			this.$router.back()
+			window.removeEventListener('popstate', this.back, false);
 		},
 		stop(){
 			if(this.display==false){
@@ -99,12 +130,15 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		playstart(){
 			const audio=this.$refs.au
 			if(this.isPlay){
+				
 				audio.pause()
+				this.Lyric.pause(this.$refs.au.currentTime*1000)
 				this.display=false
 				this.Icon=pauseIcon
 				this.isPlay=false
 			}else{
 				audio.play()
+				this.Lyric.play(this.$refs.au.currentTime*1000)
 				this.display=true
 				this.Icon=playIcon
 				this.isPlay=true
@@ -192,24 +226,44 @@ import pauseIcon from '../../common/icon/isPlay.png'
 				  this.zfx="10px"
 				   this.changetime=false
 				    this.$refs.au.currentTime=(this.clinet/this.$refs.change.clientWidth)*this.duration
-			  }
+			  },
+			  
+			  _getLyric() {
+					
+					
+					
+			},
+			  changelyrc(){
+				  if(this.lyrc==false){
+					  this._getLyric()
+					    this.lyrc=true
+				  }else{
+					    this.lyrc=false
+				  }
+			  },
+			
 	},
 	created() {
 		
 	},
 	mounted() {
-		
+		if (window.history && window.history.pushState) {
+		   history.pushState(null, null, document.URL);
+		   window.addEventListener('popstate', this.back, false);
+		 }
 	},
 	watch:{
 		btplay(){
 			const audio=this.$refs.au
 			if(this.btplay==true){
 				audio.play()
+				this.Lyric.play(this.$refs.au.currentTime*1000)
 				this.display=true
 				this.Icon=playIcon
 				this.isPlay=true
 			}else{
 				audio.pause()
+				this.Lyric.pause(this.$refs.au.currentTime*1000)
 				this.display=false
 				this.Icon=pauseIcon
 				this.isPlay=false
@@ -219,7 +273,25 @@ import pauseIcon from '../../common/icon/isPlay.png'
   }
 </script>
 <style>
-	
+	.ly{
+		margin-top: 30%;
+	}
+	.lryc{
+		position: relative;
+		width: 100%;
+		height: 280px;	
+		overflow: hidden;
+		text-align: center;	
+		margin-top: 40%;
+		font-size: 20px;
+		color: #FFFFFF;
+	}
+	.demo{
+		width: 100%;
+		
+		text-align: center;	
+	    margin-top: 30px;
+	}
 	.play-i{
 		position: relative;
 		top: -4.4px;
@@ -264,6 +336,8 @@ import pauseIcon from '../../common/icon/isPlay.png'
 			visibility: hidden;
 	}
 	.playmusic{
+		position: fixed;
+		top: 65%;
 		margin-top:15%;
 		width: 100%;
 		height: 40px;
@@ -274,19 +348,14 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		width: 100%;
 		/* z-index: 200; */
 	}
-	.demo{
-		width: 100%;
-		height: 33.9%;
-		text-align: center;	
-	    margin-top: 30px;
-	}
+	
 	@-webkit-keyframes rotation{
 	    from {-webkit-transform: rotate(0deg);}
 	    to {-webkit-transform: rotate(360deg);}
 	}
 	
 	.an{
-		display: none;
+		
 	   -webkit-transform: rotate(360deg);
 	    animation: rotation 20s linear infinite;
 	    -moz-animation: rotation 20s linear infinite;
@@ -303,6 +372,8 @@ import pauseIcon from '../../common/icon/isPlay.png'
 		
 				
 	.play-musicName{
+		/* position: fixed; */
+		/* top: 60%; */
 		text-align: center;
 		margin: 3% auto;
 		width: 100%;

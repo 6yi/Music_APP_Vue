@@ -107,7 +107,9 @@ import BScroll from 'better-scroll'
 		},
 		back () {
 			this.$router.back()
+			
 			this.$store.commit("backrecommed")
+			window.removeEventListener('popstate', this.back, false);
 		},
 	_getRecommendListDetail (id) {
 	  if (!id) {

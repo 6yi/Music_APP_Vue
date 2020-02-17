@@ -8,7 +8,7 @@ export function getSong (id) {
 }
 
 export function getLyric (id) {
-  const url = HOST + `/lyric?id=${id}`
+  const url = 'http://59.110.173.180:3000' + `/lyric?id=${id}`
 
   return axios.get(url)
 }
