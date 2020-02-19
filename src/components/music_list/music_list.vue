@@ -1,35 +1,48 @@
 <template>
-	<transition name="slide" v-if="full" mode="out-in">
-		<div>
+	<div  v-show="full" >
+		<div style=`overflow:-Scroll;overflow-x:hidden`>
+			<transition name="slide-fade" >
+			<div class="list-head" v-show="head">
+				<div class="back" @click="back">
+				  <img style="width: 40px;" src='../../common/icon/back.png'/>
+				</div>
+				<div>
+					<p  class="list-head-text" v-html="musicList.name"></p>
+				</div>
+			</div>
+			</transition>
+			
 		<div id="list"  >
 			<div id="listimg">
 				<div class="back" @click="back">
 				  <img style="width: 40px;" src='../../common/icon/back.png'/>
 				</div>
 				<div id="gradients">
-					<p id="listName" v-html="listName"></p>
+					<p id="listName" v-html="musicList.name"></p>
 				</div>
-				<img  id="alimg" v-bind:src="listImg"/>
+				<img  id="alimg" v-lazy="musicList.picUrl"/>
 			</div>
-			<div id="mydata" class="wrapper musiclist" :key="re">
+			<div id="mydata" class="musiclist">
 				<div class="nr">
+					
 					<div class="all">
 						<span>
 							<img src="../../common/icon/play.png" style="width: 20px;">
 							</span>
 							<span style="padding-left: 5%;padding-bottom: 3px;">播放全部 <span style="font-size: 12px;">(共{{listDetail.length}}首)</span></span>
 							</div>
+							<loading v-show="this.re"/>
 					<ul>
-						<li @click="play(item)" class="ite" v-for="item,index in listDetail" :key="item.id" >
+						<li ref="list" @click="play(item)" class="ite" v-for="item,index in listDetail" :key="item.id" >
 							<div class="musiciteam">
 								<span class="iteamindex">
 								{{index+1}}
 								</span>
-								<span  class="musicname">
-								{{item.name}}
-								</span>	
-								<div class="singer">
-								{{item.singer}}
+								<p  class="musicname" v-html="item.name">
+								
+								</p>	
+								<div class="singer" v-html="item.singer">
+
 								</div>				
 							</div>
 						</li>
@@ -38,7 +51,7 @@
 			</div>
 		</div>	
 		</div>
-  </transition>
+  </div>
   
 </template>
 
@@ -46,52 +59,69 @@
 import {getRecommendListDetail} from '../../API/recommend.js'
 import {createRecommendListSong} from '../../common/js/song'
 import {mapState,mapMutations} from 'vuex'
-
 import BScroll from 'better-scroll' 
+import loading from '../loading/loading.vue'
+import Scroll from '../../base/scroll/scroll.vue'
 
   export default {
+	  components:{
+		 Scroll ,loading
+	  },
 	 computed:{
-		 ...mapState(['musicList','full','playing']),
-		 ...mapMutations(['musicplay'])
+		 ...mapState(['musicList','full','listDetail']),
+		 ...mapMutations(['musicplay']),
+		
 	 },
 	data(){
 		return{
-			re:"",
+			head:false,
 			id:"",
 			listImg:"",
-			listDetail: [],
+			// listDetail: [],
 			scrollY: 0,
 			listName:"",
+			re:true,
 			headerTitle: '歌单'
 		}
 	},
 	watch:{
-		
+		listDetail:function(){
+			 this.$nextTick(function(){
+			          this.re=false
+			        })
+		}
 	},
 	created() {
 		this.id=this.musicList.id
 		this.listImg=this.musicList.picUrl
-		this.listName=this.musicList.name
+	
 	},
 	updated() {
-		this.$nextTick(() => {
-			const wrapper = document.querySelector('.wrapper')
-			    const scroll = new BScroll('.wrapper', {
-			      click: true
-			    })		
-		})
+		
 	},
 	mounted () {
-		this._getRecommendListDetail(this.id)
+		window.addEventListener('scroll', this.handleScroll);
+		console.log("list_id"+this.id)
+			this._getRecommendListDetail(this.id)
 		 if (window.history && window.history.pushState) {
 		    history.pushState(null, null, document.URL);
-		    window.addEventListener('popstate', this.back, false);
+		    window.addEventListener('popstate', this.back, false);  
 		  }
+		
 	},
 	destroyed(){
 	  window.removeEventListener('popstate', this.back, false);
 	},
 	methods:{
+		handleScroll() {
+			console.log(document.documentElement.scrollTop)
+			if(document.documentElement.scrollTop>=210){
+				this.head=true
+			}else{
+				this.head=false
+			}
+		        
+		   },
 		play(item){
 			this.$store.commit({
 				  type: 'musicmsg',
@@ -102,14 +132,15 @@ import BScroll from 'better-scroll'
 				  name:item.name,
 				  image:item.image
 				})
-				console.log(item.id)
+			
 				this.$store.commit("musicplay")
 		},
 		back () {
 			this.$router.back()
-			
 			this.$store.commit("backrecommed")
-			window.removeEventListener('popstate', this.back, false);
+			this.re=true
+			
+			
 		},
 	_getRecommendListDetail (id) {
 	  if (!id) {
@@ -131,6 +162,39 @@ import BScroll from 'better-scroll'
   }
 </script>
 <style>
+
+/* 		.slide-fade-enter-active {
+		  transition: all .3s ease;
+		}
+		.slide-fade-leave-active {
+		   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+		}
+		
+		.slide-fade-enter, .slide-fade-leave-to
+		 {
+		  transform: translateX(20px);
+		  opacity: 0;
+		}
+		 */
+		
+		
+	.list-head-text{
+		padding-top: 3%;
+		padding-left: 15%;
+		font-size: 20px;
+		color: #FFFFFF;
+	}
+	.list-head{
+		overflow: hidden;
+		white-space:nowrap;
+		width: 100%;
+		height: 55px;
+		position: fixed;
+		top: 0;
+		background-color: #D44439;
+		z-index: 9999;
+		/* text-align: center; */
+	}
 	.anmimate-box{
 	    position: absolute;
 	    top: 0px;
@@ -165,6 +229,11 @@ import BScroll from 'better-scroll'
 	}
 	.musicname{
 		padding-left: 20%;
+		width: 300px;
+		height: 24px;
+		overflow: hidden;
+		white-space:nowrap;
+		
 	}
 	.musiciteam{
 		font-family: "microsoft yahei";
@@ -181,7 +250,7 @@ import BScroll from 'better-scroll'
 		top: 43%;
 		width: 100%;
 		
-		/* margin-bottom: 30px; */
+		margin-bottom: 30px;
 	}
 	.wrapper {
 	height: 100%;
@@ -190,11 +259,13 @@ import BScroll from 'better-scroll'
 	}
 	
 	#listName{
+	
 		padding-top: 1px;
-		padding-left: 14px;
+		padding-left: 12%;
 		font-weight: 900;
 		color:whitesmoke;
 		font-size: 20px;
+		width: 100%;
 	}
 	.back{
 		position: fixed;
@@ -234,10 +305,12 @@ import BScroll from 'better-scroll'
 	} */
 	
 	#list{
-		position:fixed;
+		position:position;
 		top: 0;
 		height: 100%;
 		width: 100%;
 		background-color: white;
+	
 		}
+		
 </style>

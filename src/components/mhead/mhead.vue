@@ -17,15 +17,10 @@ export default {
 
 <style>
 .search{
-		position: absolute;
+		position: fixed;
 	    top: 4px;
 	    right: 2px;
-		.iconfont {
-		    display: block;
-		    padding: 12px;
-		    font-size: 18px;
-		    color: #d44439-l;
-		}
+		
 }
 .mine {
     position: absolute;

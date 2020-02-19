@@ -1,6 +1,5 @@
 <template>
 <div>
-	
   <scroll class="recommend" ref="recommend" v-if="indexFull">
 	  <div class="recommend-content" ref="scroll" >
 		  <div class="decorate">
@@ -23,7 +22,7 @@
 	   </div>    
   </scroll>
   
- <router-view id="list">
+ <router-view class="re-musiclist">
 	 
  </router-view>
   
@@ -73,6 +72,7 @@ export default {
 				  listName:item.name
 				})
 			this.$store.commit("inlist")
+			console.log(item.id)
 			  this.$router.push({
 				path: `/recommend/${item.id}`,query:{isNative:1}
 			  })

@@ -1,6 +1,6 @@
 import {getSong} from '../API/song.js'
-
-
+import {getRecommendListDetail} from '../API/recommend.js'
+import {createRecommendListSong} from '../common/js/song'
 
 export default{
 	musiclist(state,music){
@@ -40,7 +40,7 @@ export default{
 			state.playing=true
 			state.btplay=true
 			state.btmusic=true
-			state.full=true
+			// state.full=true
 			state.musicMsg.isplay=false
 	},
 	nobackplay(state){
@@ -52,9 +52,20 @@ export default{
 	inlist(state){
 		state.full=true
 		state.indexFull=false
+		getRecommendListDetail(state.musicList.id).then((res) => {
+		 if (res.status === 200) {	
+		    state.listDetail = res.data.playlist.tracks.map((item) => {
+		      return createRecommendListSong(item)
+		    })
+		  } else {
+		    console.error('getRecommendListDetail 获取失败！')
+		  }
+		})
+		
 	},
 	backrecommed(state){
 		state.full=false
+		state.listDetail=[]
 		state.indexFull=true
 	},
 	btchange(state){

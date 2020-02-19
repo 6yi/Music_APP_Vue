@@ -3,7 +3,7 @@
     <div class="bmusic">
 		<div class="in-music"> 
 		<div class="bt-img"  @click="play">
-			<img :key="this.musicMsg.image.id" v-lazy="this.musicMsg.image" style="width: 35px;">
+			<img :key="this.musicMsg.image.id" :src="this.musicMsg.image" style="width: 35px;">
 		</div>
 		<div class="bt-name"  @click="play">
 			{{musicMsg.name}}
@@ -27,12 +27,12 @@ import pauseIcon from '../../common/fonts/play.png'
   export default {
 	name:"btmusic",
     computed:{
-    	...mapState(['musicMsg','playing','full','btplay']),	
+    	...mapState(['musicMsg','playing','btplay']),	
 			
     },
 	data(){
 		return{
-			ICon:pauseIcon
+			ICon:playIcon
 		}
 	},
 	methods:{
@@ -88,6 +88,7 @@ import pauseIcon from '../../common/fonts/play.png'
 		overflow: hidden;
 		position: fixed;
 		bottom: 0;
+		padding-top: 10%;
 		padding-top: 9%;
 		background-color:white;
 		width: 100%;

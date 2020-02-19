@@ -16,7 +16,7 @@
 	    </keep-alive>
 	
 		<div>
-			<bmusic v-show="playing"></bmusic>		
+			<bmusic ></bmusic>		
 		</div>
 		
   </div>
@@ -54,6 +54,7 @@ play {
 	z-index: 2;
 	}
 #app {
+	 overflow-x : hidden;   
   position: fixed;
 	font-family: "microsoft yahei";
   top: 0;

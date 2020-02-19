@@ -1,3 +1,4 @@
+import icon from '../common/image/default.png'
 const state = {
   musicList:{
 	  id:"",
@@ -11,30 +12,15 @@ const state = {
 	  singer:"",
 	  name:"",
 	  al:"",
-	  image:""
+	  image:icon
   },
   btmusic:false,
   full:true,
   playing: false,
   indexFull:true,
   btplay:false,
-  Lyrics:'66'
-  // singer: {},
-  // // 播放
-  // playing: false,
-  // // 全屏
-  // fullScreen: false,
-  // playlist: [],
-  // // 顺序列表
-  // sequenceList: [],
-  // // 播放模式
-  // mode: playMode.sequence,
-  // // 当前播放索引
-  // currentIndex: -1,
-  // disc: {},
-  // topList: {},
-  // searchHistory: loadSearch(),
-  // playHistory: loadPlay(),
-  // favoriteList: loadFavorite()
+  Lyrics:'66',
+ listDetail: []
+ 
 }
 export default state

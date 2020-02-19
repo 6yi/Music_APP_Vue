@@ -50,8 +50,7 @@ import Lyric from 'lrc-file-parser'
   export default {
     name: 'player',
 	computed:{
-		...mapState(['musicMsg','playing','full','btplay']),
-			
+		...mapState(['musicMsg','playing','full','btplay']),	
 	},
 	data(){
 		return{
@@ -117,8 +116,8 @@ import Lyric from 'lrc-file-parser'
 			}else{
 				this.$store.commit("backplay")	
 			}
-			this.$router.back()
-			window.removeEventListener('popstate', this.back, false);
+			
+			// window.removeEventListener('popstate', this.back, false);
 		},
 		stop(){
 			if(this.display==false){
