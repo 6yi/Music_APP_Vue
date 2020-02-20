@@ -1,6 +1,6 @@
 <template>
-	<div  v-show="full" >
-		<div style=`overflow:-Scroll;overflow-x:hidden`>
+	<div  v-show="full" id="page" style="overflow-y:scroll;height:100vh;">
+		<div >
 			<transition name="slide-fade" >
 			<div class="list-head" v-show="head">
 				<div class="back" @click="back">
@@ -100,9 +100,16 @@ import Scroll from '../../base/scroll/scroll.vue'
 		
 	},
 	mounted () {
-		window.addEventListener('scroll', this.handleScroll);
-		console.log("list_id"+this.id)
-			this._getRecommendListDetail(this.id)
+		 document.addEventListener('scroll', () => {
+			 console.log(document.documentElement.scrollTop)
+			 if(document.documentElement.scrollTop>=210){
+			 	this.head=true
+			 }else{
+			 	this.head=false
+			 }
+		    })
+		 // window.addEventListener('scroll', this.pageScroll)
+		this._getRecommendListDetail(this.id)
 		 if (window.history && window.history.pushState) {
 		    history.pushState(null, null, document.URL);
 		    window.addEventListener('popstate', this.back, false);  
@@ -110,16 +117,12 @@ import Scroll from '../../base/scroll/scroll.vue'
 		
 	},
 	destroyed(){
+		 window.removeEventListener('scroll', this.pageScroll)
 	  window.removeEventListener('popstate', this.back, false);
 	},
 	methods:{
-		handleScroll() {
-			console.log(document.documentElement.scrollTop)
-			if(document.documentElement.scrollTop>=210){
-				this.head=true
-			}else{
-				this.head=false
-			}
+		pageScroll() {
+			
 		        
 		   },
 		play(item){
@@ -163,7 +166,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 </script>
 <style>
 
-/* 		.slide-fade-enter-active {
+		.slide-fade-enter-active {
 		  transition: all .3s ease;
 		}
 		.slide-fade-leave-active {
@@ -175,7 +178,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 		  transform: translateX(20px);
 		  opacity: 0;
 		}
-		 */
+		
 		
 		
 	.list-head-text{
