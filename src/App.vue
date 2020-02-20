@@ -18,6 +18,7 @@
 		<div>
 			<bmusic ></bmusic>		
 		</div>
+	
 		
   </div>
 </template>
@@ -28,6 +29,7 @@ import mtable from './components/table/mtable.vue'
 import play from './components/player/player.vue'
 import bmusic from './components/bottomMusic/bMusic.vue'
 import {mapState,mapMutations} from 'vuex'
+
 export default {
 	name: 'App',
 	components:{
@@ -39,6 +41,7 @@ export default {
 }
 </script>
 <style>
+
 		
 *{
 	margin: 0;

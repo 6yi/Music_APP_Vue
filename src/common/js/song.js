@@ -44,6 +44,15 @@ export function createRecommendListSong (music) {
   })
 }
 
+export function createSearchListSong (music) {
+  return new Song({
+    id: music.id,
+    singer: music.artists[0].name,
+    name: music.name,
+  })
+}
+
+
 export function createSong (music) {
   return new Song({
     id: music.id,

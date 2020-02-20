@@ -139,7 +139,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 				this.$store.commit("musicplay")
 		},
 		back () {
-			this.$router.back()
+			// this.$router.back()
 			this.$store.commit("backrecommed")
 			this.re=true
 			

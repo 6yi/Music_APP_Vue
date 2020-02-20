@@ -4,19 +4,23 @@
   <!--  <router-link to="/user" class="mine" tag="div">
      <img class="icon-list" src='../../common/icon/list.png'></img>
     </router-link> -->
-    <router-link to="/search" class="search" tag="div">
+    <router-link to="/search" class="se" tag="div">
       <img class="icon-search" src="../../common/icon/search.png"></img>
     </router-link>
   </div>
 </template>
 <script>
+
 export default {
-	name:"mhead"
+	name:"mhead",
+	components:{
+		
+	}
 }
 </script>
 
 <style>
-.search{
+.se{
 		position: fixed;
 	    top: 4px;
 	    right: 2px;
