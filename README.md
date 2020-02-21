@@ -3,7 +3,7 @@
 > A Vue.js project
 
 ## Vue.js打造的音乐WebAPP
-
+<br />
 ### 用到的主要开源技术
 ```
 > Vue.js                      前端框架
@@ -14,19 +14,30 @@
 > NeteaseCloudMusicApi        网易云API
 ```
 ##### 对以上作者表示感谢
-
+<br />
+<br />
 
 ## Demo
-#### 主界面
+### 主界面
 ![Image text](http://59.110.173.180:9090/static/SavePic/f6282c34ee11075333a1211da2985457微信截图_20200221140952.jpg)
-#### 歌单列表
+<br />
+<br />
+### 歌单列表
 ![Image text](http://59.110.173.180:9090/static/SavePic/2480ef847abad32da2e3f90459786f54微信截图_20200221141011.jpg)
-#### 播放界面
+<br />
+<br />
+### 播放界面
 ![Image text](http://59.110.173.180:9090/static/SavePic/313025cc06eb75258f8029f381552b38微信截图_20200221141034.jpg)
-#### 歌词
+<br />
+<br />
+### 歌词
 ![Image text](http://59.110.173.180:9090/static/SavePic/11c419481524219113d49fb84bb4b073微信截图_20200221141042.jpg)
-
-
+<br />
+<br />
+### 搜索
+![Image text](http://59.110.173.180:9090/static/SavePic/719fa37d50b26f2ca74a18bc336eda7f微信截图_20200221141023.jpg)
+<br />
+<br />
 ## Build Setup
 ``` bash
 # install dependencies
