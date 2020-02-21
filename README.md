@@ -7,7 +7,7 @@
 > Vue.js               前端框架
 > Vuex                 状态管理
 > Vue-cli              Vue脚手架
-> VueRoute             路由
+> Vue-router           路由
 > lrc-file-parser      歌词解析
 > NeteaseCloudMusicApi 网易云API
 ```
