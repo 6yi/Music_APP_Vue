@@ -1,9 +1,5 @@
-# music_Webapp
-
+## Vue.js_WebAPP
 > A Vue.js project
-
-## Vue.js打造的音乐WebAPP
-<br />
 
 ### 用到的主要开源技术
 
