@@ -8,12 +8,19 @@
 ## Vue.js打造的音乐WebAPP
 
 ### 用到的主要开源技术
-> Vue.js                前端框架
-> Vuex                  状态管理
-> Vue-cli               Vue脚手架
-> VueRouter             路由
-> lrc-file-parser       歌词解析
-> NeteaseCloudMusicApi  网易云API
+> Vue.js
+前端框架
+> Vuex
+状态管理
+> Vue-cli
+Vue脚手架
+> VueRoute
+路由
+> lrc-file-parser
+歌词解析
+> NeteaseCloudMusicApi
+网易云API
+
 ##### 对以上作者表示感谢
 
 
