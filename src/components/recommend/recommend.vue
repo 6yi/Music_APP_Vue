@@ -40,7 +40,7 @@ import {getBanner, getRecommendList} from '../../API/recommend.js'
 export default {
 	computed:{
 		
-			...mapState(['indexFull'])
+		...mapState(['indexFull'])
 		
 	}
 	,
@@ -72,7 +72,7 @@ export default {
 				  listName:item.name
 				})
 			this.$store.commit("inlist")
-			console.log(item.id)
+			
 			  this.$router.push({
 				path: `/recommend/${item.id}`,query:{isNative:1}
 			  })

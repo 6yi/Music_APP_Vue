@@ -96,7 +96,6 @@ import pauseIcon from '../../common/fonts/play.png'
 		box-shadow:0 0 1px #000 inset;
 	}
 	.bt-icon{
-		
 		position: fixed;
 		right: 24px;
 		bottom: 2px;

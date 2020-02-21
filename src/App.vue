@@ -14,7 +14,9 @@
 			<router-view v-show="!musicMsg.isplay"></router-view>
 			
 	    </keep-alive>
-	
+	<div>
+		<search/>
+	</div>
 		<div>
 			<bmusic ></bmusic>		
 		</div>
@@ -28,12 +30,13 @@ import mhead from './components/mhead/mhead.vue'
 import mtable from './components/table/mtable.vue'
 import play from './components/player/player.vue'
 import bmusic from './components/bottomMusic/bMusic.vue'
+import search from './components/search/search.vue'
 import {mapState,mapMutations} from 'vuex'
 
 export default {
 	name: 'App',
 	components:{
-		mhead,mtable,play,bmusic
+		mhead,mtable,play,bmusic,search 
 	},
 	computed:{
 		...mapState(['indexFull','musicMsg','playing'])

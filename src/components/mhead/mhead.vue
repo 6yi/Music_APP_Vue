@@ -4,17 +4,23 @@
   <!--  <router-link to="/user" class="mine" tag="div">
      <img class="icon-list" src='../../common/icon/list.png'></img>
     </router-link> -->
-    <router-link to="/search" class="se" tag="div">
+    <div  class="se" @click="insearch">
       <img class="icon-search" src="../../common/icon/search.png"></img>
-    </router-link>
+    </div>
   </div>
 </template>
 <script>
-
+import {mapState,mapMutations} from 'vuex'
 export default {
 	name:"mhead",
 	components:{
 		
+	},
+	methods:{
+		insearch(){
+			this.$store.commit('insearch')
+			
+		}
 	}
 }
 </script>

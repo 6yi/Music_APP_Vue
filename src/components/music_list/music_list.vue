@@ -22,7 +22,7 @@
 				</div>
 				<img  id="alimg" v-lazy="musicList.picUrl"/>
 			</div>
-			<div id="mydata" class="musiclist">
+			<div id="mydata" class="list-musiclist">
 				<div class="nr">
 					
 					<div class="all">
@@ -33,15 +33,15 @@
 							</div>
 							<loading v-show="this.re"/>
 					<ul>
-						<li ref="list" @click="play(item)" class="ite" v-for="item,index in listDetail" :key="item.id" >
-							<div class="musiciteam">
-								<span class="iteamindex">
+						<li ref="list" @click="play(item,index)" class="list-ite" v-for="item,index in listDetail" :key="item.id" >
+							<div class="list-musiciteam">
+								<span class="list-iteamindex">
 								{{index+1}}
 								</span>
-								<p  class="musicname" v-html="item.name">
+								<p  class="list-musicname" v-html="item.name">
 								
 								</p>	
-								<div class="singer" v-html="item.singer">
+								<div class="list-singer" v-html="item.singer">
 
 								</div>				
 							</div>
@@ -70,7 +70,6 @@ import Scroll from '../../base/scroll/scroll.vue'
 	 computed:{
 		 ...mapState(['musicList','full','listDetail']),
 		 ...mapMutations(['musicplay']),
-		
 	 },
 	data(){
 		return{
@@ -101,7 +100,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 	},
 	mounted () {
 		 document.addEventListener('scroll', () => {
-			 console.log(document.documentElement.scrollTop)
+			
 			 if(document.documentElement.scrollTop>=210){
 			 	this.head=true
 			 }else{
@@ -125,7 +124,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 			
 		        
 		   },
-		play(item){
+		play(item,index){
 			this.$store.commit({
 				  type: 'musicmsg',
 				  ispaly:true,
@@ -133,10 +132,11 @@ import Scroll from '../../base/scroll/scroll.vue'
 				  singer:item.singer,
 				  al:item.album,
 				  name:item.name,
-				  image:item.image
+				  image:item.image,
+				  
 				})
 			
-				this.$store.commit("musicplay")
+				this.$store.commit("musicplay",index)
 		},
 		back () {
 			// this.$router.back()
@@ -169,9 +169,9 @@ import Scroll from '../../base/scroll/scroll.vue'
 		.slide-fade-enter-active {
 		  transition: all .3s ease;
 		}
-		.slide-fade-leave-active {
+/* 		.slide-fade-leave-active {
 		   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-		}
+		} */
 		
 		.slide-fade-enter, .slide-fade-leave-to
 		 {
@@ -206,7 +206,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 	    overflow: hidden;
 	}
 
-	.singer{
+	.list-singer{
 		color: #C7C7C7;
 		padding-top: 2%;
 		font-size: 13px;
@@ -221,7 +221,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 		border-bottom: 1px solid  #EEEEEE;
 	}
 	
-	.iteamindex{
+	.list-iteamindex{
 		font-family: "microsoft sans serif";
 		text-align: center;
 		color: #C7C7C7;
@@ -230,7 +230,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 		padding-left: 8%;
 		padding-right: 8%;
 	}
-	.musicname{
+	.list-musicname{
 		padding-left: 20%;
 		width: 300px;
 		height: 24px;
@@ -238,7 +238,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 		white-space:nowrap;
 		
 	}
-	.musiciteam{
+	.list-musiciteam{
 		font-family: "microsoft yahei";
 		white-space:nowrap;
 		width: 100%;
@@ -248,7 +248,7 @@ import Scroll from '../../base/scroll/scroll.vue'
 		border-bottom: 1px solid #EEEEEE;
 	}
 
-	.musiclist{
+	.list-musiclist{
 		position: absolute;	
 		top: 43%;
 		width: 100%;

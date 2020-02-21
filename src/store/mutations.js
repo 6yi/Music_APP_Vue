@@ -1,4 +1,4 @@
-import {getSong} from '../API/song.js'
+import {getSong,getSongImg} from '../API/song.js'
 import {getRecommendListDetail} from '../API/recommend.js'
 import {createRecommendListSong} from '../common/js/song'
 
@@ -21,15 +21,47 @@ export default{
 		state.musicMsg.singer=music.singer
 		state.musicMsg.al=music.al
 	},
+	musicmsgS(state,music){
+		state.full=true
+		state.btmusic=true
+		state.musicMsg.isplay=true
+		getSong(music.id).then(res=>{
+			state.musicMsg.url=res.data.data[0].url
+		})
+		getSongImg(music.id).then(res=>{
+			state.musicMsg.image=res.data.songs[0].al.picUrl
+		})
+		state.musicMsg.name=music.name
+		state.musicMsg.id=music.id
+		state.musicMsg.singer=music.singer
+		state.listDetail=music.list.map((res)=>{
+			getSongImg(res.id).then((res2)=>{
+				res.image=res2.data.songs[0].al.picUrl
+			})
+			return res
+		})
+	},
 	btmusicplay(state){
 		state.playing=false
 		state.musicMsg.isplay=true
 	},
-	musicplay(state){
+	changeMusic(state,index){
+		getSong(state.listDetail[index].id).then(res=>{
+			state.musicMsg.url=res.data.data[0].url
+		})
+		state.musicMsg.isplay=true
+		state.musicMsg.name=state.listDetail[index].name
+		state.musicMsg.image=state.listDetail[index].image
+		state.musicMsg.id=state.listDetail[index].id
+		state.musicMsg.singer=state.listDetail[index].singer
+		state.musicMsg.al=state.listDetail[index].al
+		state.ListIndex=index
+	},
+	musicplay(state,index){
 		state.musicMsg.isplay=false
 		state.btmusic=true
 		state.playing=true
-		
+		state.ListIndex=index
 		state.playing=true
 		state.btplay=true
 		state.btmusic=true
@@ -74,5 +106,11 @@ export default{
 		}else{
 			state.btplay=true
 		}
+	},
+	insearch(state){
+		state.searchfull=true
+	},
+	outsearch(state){
+		state.searchfull=false
 	}
 }

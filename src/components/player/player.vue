@@ -28,9 +28,9 @@
 							   @touchend="up()" ></div>
 					  </div>
 				  <div   class="play-con">
-				  	<img class="play-last" src="../../common/icon/lastMusic.png" style="width: 13%;">
+				  	<img class="play-last" @click="changeMusic(ListIndex-1)" src="../../common/icon/lastMusic.png" style="width: 13%;">
 				  	<img @click="playstart" class="play-icon" ref="playIcon" v-bind:src="Icon" style="width: 13%">
-				  	<img class="next-last" src="../../common/icon/nextMusic.png" style="width: 13%;">
+				  	<img class="next-last" @click="changeMusic(ListIndex+1)"  src="../../common/icon/nextMusic.png" style="width: 13%;">
 				  	</div>
 				  </div>
 			  </keep-alive>
@@ -50,7 +50,7 @@ import Lyric from 'lrc-file-parser'
   export default {
     name: 'player',
 	computed:{
-		...mapState(['musicMsg','playing','full','btplay']),	
+		...mapState(['musicMsg','playing','full','btplay','ListIndex','listDetail']),	
 	},
 	data(){
 		return{
@@ -76,6 +76,14 @@ import Lyric from 'lrc-file-parser'
 		}
 	},
 	methods:{
+		changeMusic(index){
+			if(index<0||index>=this.listDetail.length){
+				
+			}else{
+				this.$store.commit("changeMusic",index)
+			}
+			
+		},
 		getDuration(){
 			this.duration=this.$refs.au.duration;
 			var dom=document.getElementById("ly")

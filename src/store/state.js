@@ -14,13 +14,16 @@ const state = {
 	  al:"",
 	  image:icon
   },
+  ListIndex:"",
   btmusic:false,
+  lastrouter:"",
+  searchfull:false,
   full:true,
   playing: false,
   indexFull:true,
   btplay:false,
   Lyrics:'66',
- listDetail: []
+  listDetail: []
  
 }
 export default state
