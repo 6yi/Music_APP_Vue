@@ -2,25 +2,17 @@
 
 > A Vue.js project
 
-## Build Setup
-
-
 ## Vue.js打造的音乐WebAPP
 
 ### 用到的主要开源技术
-> Vue.js
-前端框架
-> Vuex
-状态管理
-> Vue-cli
-Vue脚手架
-> VueRoute
-路由
-> lrc-file-parser
-歌词解析
-> NeteaseCloudMusicApi
-网易云API
-
+```
+> Vue.js                      前端框架
+> Vuex                        状态管理
+> Vue-cli                     Vue脚手架
+> VueRoute                    路由
+> lrc-file-parser             歌词解析
+> NeteaseCloudMusicApi        网易云API
+```
 ##### 对以上作者表示感谢
 
 
@@ -34,6 +26,8 @@ Vue脚手架
 #### 歌词
 ![Image text](http://59.110.173.180:9090/static/SavePic/11c419481524219113d49fb84bb4b073微信截图_20200221141042.jpg)
 
+
+## Build Setup
 ``` bash
 # install dependencies
 npm install
@@ -48,7 +42,7 @@ npm run build
 npm run build --report
 ```
 
-#### 因为精力有限,写完切换歌曲后就暂时停一会,这个也是我的Vue练手项目,界面有借鉴他人,样式和代码是自己实打实写的
+#### 因为精力有限,写完切换歌曲后这个项目就暂时停一段时间,这个也是我学习Vue的练手项目,界面有借鉴他人,样式和代码是自己实打实写的
 
 
-
+## 2020/2/21
