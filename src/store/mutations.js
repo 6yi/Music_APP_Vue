@@ -111,6 +111,7 @@ export default{
 		state.searchfull=true
 	},
 	outsearch(state){
+		state.full=false
 		state.searchfull=false
 	}
 }

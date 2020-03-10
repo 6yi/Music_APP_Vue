@@ -1,5 +1,5 @@
 <template>
-	<div  v-show="full" id="page" style="overflow-y:scroll;height:100vh;">
+	<div  v-if="full" id="page" style="overflow-y:scroll;height:100vh;">
 		<div >
 			<transition name="slide-fade" >
 			<div class="list-head" v-show="head">
@@ -12,7 +12,7 @@
 			</div>
 			</transition>
 			
-		<div id="list"  >
+		<div id="list"  v-show="full">
 			<div id="listimg">
 				<div class="back" @click="back">
 				  <img style="width: 40px;" src='../../common/icon/back.png'/>
