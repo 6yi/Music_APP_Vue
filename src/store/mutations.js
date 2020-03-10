@@ -65,7 +65,7 @@ export default{
 		state.playing=true
 		state.btplay=true
 		state.btmusic=true
-		state.full=true
+		// state.full=false
 		state.musicMsg.isplay=false
 	},
 	backplay(state){

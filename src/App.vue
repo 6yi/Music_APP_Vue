@@ -10,10 +10,9 @@
 	  </transition>
 		
 	   <keep-alive> 
-	  
-			<router-view v-show="!musicMsg.isplay"></router-view>
-			
+			<router-view v-show="!musicMsg.isplay"></router-view>	
 	    </keep-alive>
+		
 	<div>
 		<search/>
 	</div>
