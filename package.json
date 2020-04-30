@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lrc-file-parser": "^1.0.0",
     "lyrics.js": "^0.4.2",
     "vue": "^2.5.2",
